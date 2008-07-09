@@ -11,9 +11,8 @@
 #  REQUIREMENTS:  ---
 #          BUGS:  ---
 #         NOTES:  ---
-#        AUTHOR:  hayzer, hayzer@gmail.com
-#       COMPANY:  *
-#       VERSION:  1.0
+#        AUTHOR:  Thomas Maier, hayzer@gmail.com
+#       VERSION:  0.01
 #       CREATED:  06/15/2008 04:36:50 PM IDT
 #      REVISION:  ---
 #       LICENSE: GNU GPL
@@ -44,31 +43,44 @@ source lib/libbashtap.sh
 #   Testing functions
 #-------------------------------------------------------------------------------
 function is_equal {
-	# Wildcharacter [*] is automatically expand by the shell.
-	# Cancel this behavior before evaluation.:w
-	:
+	_equal "${1}" "${2}" "${3}" '-eq'
 }
 
 function is_not_equal {
-	:
+	_equal "${1}" "${2}" "${3}" '-ne'
 }
 
-function is_true {
-	declare   operation="${1}"
-	declare description="${*}"
+function _equal {
+	declare     operation="${1}"
+	declare expect_result="${2}"
+	declare   description="${3}"
+	declare      operator="${4}"
+	declare result
 
-	if ${operation} 2>/dev/null 1>&2; then
+	result=$( echo "${operation}" | bc -l )
+
+	if [ ${expect_result} ${operator} ${result} ]; then
 		print_ok "${description}"
 	else
 		print_not_ok "${description}"
+		print_verbose_result "${result}" "${expect_result}" "${description}"
 	fi
 }
-		
+
+function is_true {
+	_boolean "${1}" "${2}"
+}
+
 function is_false {
+	_boolean "${1}" "${2}" "!"
+}
+
+function _boolean {
 	declare   operation="${1}"
 	declare description="${2}"
+	declare        bool="${3}"
 
-	if ! ${operation} 2>/dev/null 1>&2; then
+	if ${bool} ${operation} 2>/dev/null 1>&2; then
 		print_ok "${description}"
 	else
 		print_not_ok "${description}"
@@ -76,11 +88,20 @@ function is_false {
 }
 
 function is_exact {
+	_exact "${1}" "${2}" "${3}" '='
+}
+
+function is_not_exact {
+	_exact "${1}" "${2}" "${3}" '!='
+}
+
+function _exact {
 	declare       given="${1}"
 	declare    expected="${2}"
 	declare description="${3}"
+	declare operator="${4}"
 
-	if [ "${given}" = "${expected}" ]; then
+	if [ "${given}" ${operator} "${expected}" ]; then
 		print_ok "${description}"
 	else 
 		print_not_ok "${description}"

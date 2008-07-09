@@ -11,13 +11,32 @@
 #  REQUIREMENTS:  ---
 #          BUGS:  ---
 #         NOTES:  ---
-#        AUTHOR:  Thomas Maier (Bashunit), hayzer@gmail.com
-#       COMPANY:  GNU
-#       VERSION:  1.0
+#        AUTHOR:  Thomas Maier, hayzer@gmail.com
+#       VERSION:  0.01
 #       CREATED:  01/08/2008 10:45:19 PM IST
 #      REVISION:  ---
 #===============================================================================
 
+#===============================================================================
+# This file is part of TestSimple.
+# Copyright (C) 2008 - 2008 Thomas Maier
+#
+# TestSimple is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+#===============================================================================
+
+TESTPLAN=
 TESTCOUNTER=0
 WITHCOUNTER=true
 WITHDESCRIP=true
@@ -28,22 +47,32 @@ TRUE=0
 FALSE=1
 FAILCOUNTER=0
 
-
 trap on_trap EXIT
 
 function on_trap {
-	declare msg_head="# Looks like you failed ${FAILCOUNTER}"
-	declare tests
+	declare msg_header="# Looks like you failed ${FAILCOUNTER}"
+	declare msg_footer=''
+	declare tests plan
 	if [ ${FAILCOUNTER} -eq 1 ]; then
 		test='test'
 	elif [ ${FAILCOUNTER} -gt 1 ]; then
 		test='tests'
 	else
-		return
+		return ${FALSE}
 	fi
 
-	msg_head="${msg_head} ${test} of ${TESTCOUNTER}"
-	echo ${msg_head}
+	if [ ${TESTPLAN} -ne ${TESTCOUNTER} ]; then
+		msg_footer="# Looks like you planned ${TESTPLAN}"
+		if [ ${TESTPLAN} -eq 1 ]; then
+			plan='test'
+		else
+			plan='tests'
+		fi
+		msg_footer="${msg_footer} ${plan} but only run ${TESTCOUNTER}\n"
+	fi
+
+	msg_header="${msg_header} ${test} of ${TESTCOUNTER}\n"
+	echo -ne "${msg_footer}${msg_header}"
 }
 		
 #-------------------------------------------------------------------------------
@@ -67,6 +96,8 @@ function testplan() {
 		echo "Test plan cannot be ${test}"
 		exit 1
 	fi
+
+	TESTPLAN=${test}
 
 	if ${SKIP_ALL}; then
 		postfix=" # Skipped: ${SKIP_ALL_DESCRIPTION}"
@@ -103,12 +134,17 @@ function print_verbose_result {
 	declare         got="${1}"
 	declare    expected="${2}"
 	declare description="${3}"
+	declare name="$0"
+	declare line="${BASH_LINENO[2]}"
 
-	cat <<END_RESULT
+	if [ "${VERBOSE}" != "" ]; then
+		cat <<END_RESULT
 #   Failed test '${description}'
+#       where: '${name}:${line}'
 #         got: '${got}'
 #    expected: '${expected}'
 END_RESULT
+	fi
 }
 
 function print_counter {
