@@ -1,0 +1,123 @@
+.\" with GNOME Manpages Editor Wizard
+.\" 
+.\" Rua <srua@gpul.org>
+.\" 
+.\" 
+.TH "TestSimple" "1" "0.01" "Thomas Maier" ""
+.SH "NAME"
+TestSimple \- Bash testing library. TAP (Testing All Protocol) compliance.
+
+.SH "SYNOPSIS"
+# Simple add this line at the beginning of your Bash script. 
+
+.B source lib/libbashtap.sh
+.br 
+
+.SH "DESCRIPTION"
+This manual page explains the
+.B libbashtap
+program. This program...
+.PP 
+\fBlibbashtap\fP is for...
+
+.SH "PLANNING AND DIAGNOSTIC"
+.B testplan
+.br 
+.B diag
+.br 
+.B todo_on
+.br 
+.B todo_off
+.br 
+.B skip_on
+.br 
+.B skip_off
+.br 
+.B boil_out
+.br 
+
+.SH "TESTING"
+.B is_exact
+.br 
+.B is_not_exact
+.br 
+.B is_like
+.br 
+.B is_not_like
+.br 
+
+.B is_file
+.br 
+Check if the given string is a file.
+
+.B is_not_file
+.br 
+
+.B is_dir <dir name> [<descripton>]
+.br 
+Check if give string is a directory.
+
+.B is_not_dir
+.br 
+
+.B is_executable
+.br 
+Check if given file has the execute permissions.
+
+.B is_not_executable
+.br 
+
+.B is_symlink <name> [<descripton>]
+.br 
+Check if the given string is a symbolic link.
+
+.B is_not_symlink
+.br 
+
+.B is_process <process id> [<description>]
+.br 
+Find if given number is process id of an existsing process.
+
+.B is_not_process
+.br 
+
+.B is_insmod <kernel module> [<description>]
+.br 
+Will check if given kernel module is currently loaded into the kernel.
+Given module name may be either a simple string or regular expression.
+
+.B is_not_insmod
+.br 
+
+
+
+.SH "ENVIRONMENT"
+Note: 
+.B libbashtab
+will exports into your script environment few global variables.
+.B 
+SKIP
+.br 
+.B 
+TODO
+.br 
+.B 
+TESTCOUNTER
+.br 
+Don't use variables with such a names neither change their values.
+
+
+.SH "DIAGNOSTICS"
+.B 
+libbashtap
+will (at least, should) print output complience with the TAP definition.
+
+.SH "RETURN VALUES"
+
+.SH "ERROR HANDLING"
+
+.SH "BUGS"
+
+.SH "SEE ALSO"
+.SH "AUTHOR"
+Thomas Maier <hayzer at gmail dot com>
