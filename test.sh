@@ -40,26 +40,40 @@
 
 source lib/TestSimple.sh
 
-testplan 14
+testplan 18
 
-is_equal "2 * 2" 4 "check is_eqal"
-is_equal "2 * 2" 5 "check is_eqal"
+is_equal         "2 * 2" 4   "check is_eqal"
+is_equal         "2 * 2" 5   "check is_eqal"
 
-is_not_equal "2 * 2" 5 "check is_eqal"
-is_true 'ls -l' "Correct operation"
-is_false 'ls ./dda' "False operation"
-is_exact 2 2 "Two is two"
-is_like "abc" "ab*" "Check is_like"
+is_not_equal     "2 * 2" 5   "check is_eqal"
+is_true          'ls -l'     "Correct operation"
+is_false         'ls ./dda'  "False operation"
+is_exact          2 2        "Two is two"
 
-diag "Very slow test"
+diag             "Very slow test"
 
-is_exact "baa" "aa" "is_exact fail"
-is_not_exact "baa" "aa" "is_not_exact pass"
+is_exact         "baa" "aa"  "is_exact fail"
+is_not_exact     "baa" "aa"  "is_not_exact pass"
 
-is_like "abcd" "bc" "is_like test"
-is_file "./test.sh" "is_file test"
-is_dir "/usr/local" "is_dir test"
-is_executable "./test.sh" "is_executable test"
-is_insmod tg3      "is_insmod test"
+is_file          "./test.sh"  "is_file test"
+is_not_file      "./testy.sh" "is_not_file test"
+
+is_dir           "/usr/local" "is_dir test"
+is_not_dir       "/abc"       "is_not_dir test"
+
+ln -s ./test.sh ./stam.link
+is_symlink       ./stam.link  "is_symlink test"
+
+rm -f ./stam.link
+is_not_symlink   ./stam.link  "is_not_symlink test"
+
+process=$$
+is_process       "${process}" "is_process test"
+process=$(( ${process} + 1 ))
+is_not_process   "${process}" "is_not_process test"
+
+is_executable    "./test.sh"  "is_executable test"
+is_insmod        "tg3"        "is_insmod test"
+is_not_insmod    "ipw2200"    "is_not_insmod"
 
 exit 0

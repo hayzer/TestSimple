@@ -108,42 +108,20 @@ function _exact {
 	fi
 }
 
-function is_like {
-	declare       given="${1}"
-	declare    expected="${2}"
-	declare description="${3}"
-
-	declare oldshopt=$( shopt -p extglob )
-	shopt -s extglob
-
-	 search=${given}
-	pattern="+(*${expected}*)"
-
-	if [[ "${search}" = ${pattern} ]]; then
-		print_ok "${description}"
-	else
-		print_not_ok "${description}"
-	fi
-
-	eval ${oldshopt}
-}
-
 function is_file {
-	declare        file="${1}"
-	declare description="${2}"
-
-	if test -e ${file}; then
-		print_ok "${description}"
-	else
-		print_not_ok "${description}"
-	fi
+	_file "${1}" "${2}"
 }
 
 function is_not_file {
+	_file "${1}" "${2}" !
+}
+
+function _file {
 	declare        file="${1}"
 	declare description="${2}"
+	declare    operator="${3}"
 
-	if ! test -e ${file}; then
+	if [ ${operator} -e ${file} ]; then
 		print_ok "${description}"
 	else
 		print_not_ok "${description}"
@@ -151,21 +129,19 @@ function is_not_file {
 }
 
 function is_dir {
-	declare   directory="${1}"
-	declare description="${2}"
-
-	if test -d ${directory}; then
-		print_ok "${description}"
-	else
-		print_not_ok "${description}"
-	fi
+	_dir "${1}" "${2}" 
 }
 
 function is_not_dir {
+	_dir "${1}" "${2}" "!"
+}
+
+function _dir {
 	declare   directory="${1}"
 	declare description="${2}"
+	declare    operator="${3}"
 
-	if ! test -d ${directory}; then
+	if [ ${operator} -d ${directory} ]; then
 		print_ok "${description}"
 	else
 		print_not_ok "${description}"
@@ -173,21 +149,19 @@ function is_not_dir {
 }
 
 function is_executable {
-	declare        file="${1}"
-	declare description="${2}"
-
-	if test -x ${file}; then
-		print_ok "${description}"
-	else
-		print_not_ok "${description}"
-	fi
+	_executable "${1}" "${2}"
 }
 
 function is_not_executable {
+	_executable "${1}" "${2}" "!"
+}
+
+function _executable {
 	declare        file="${1}"
 	declare description="${2}"
+	declare    operator="${3}"
 
-	if ! test -x ${file}; then
+	if [ ${operator} -x ${file} ]; then
 		print_ok "${description}"
 	else
 		print_not_ok "${description}"
@@ -195,21 +169,19 @@ function is_not_executable {
 }
 
 function is_symlink {
-	declare        file="${1}"
-	declare description="${2}"
-
-	if test -L ${file}; then
-		print_ok "${description}"
-	else
-		print_not_ok "${description}"
-	fi
+	_symlink "${1}" "${2}" 
 }
 
 function is_not_symlink {
+	_symlink "${1}" "${2}" "!"
+}
+
+function _symlink {
 	declare        file="${1}"
 	declare description="${2}"
+	declare    operator="${3}"
 
-	if ! test -L ${file}; then
+	if [ ${operator} -L ${file} ]; then
 		print_ok "${description}"
 	else
 		print_not_ok "${description}"
@@ -217,21 +189,19 @@ function is_not_symlink {
 }
 
 function is_process {
-	declare     process="${1}"
-	declare description="${2}"
-
-	if test -d /proc/${process}; then
-		print_ok "${description}"
-	else 
-		print_not_ok "${description}"
-	fi
+	_process "${1}" "${2}" 
 }
 
 function is_not_process {
+	_process "${1}" "${2}" "!"
+}
+
+function _process {
 	declare     process="${1}"
 	declare description="${2}"
+	declare     operator="${3}"
 
-	if ! test -d /proc/${process}; then
+	if [ ${operator} -d /proc/${process} ]; then
 		print_ok "${description}"
 	else 
 		print_not_ok "${description}"
@@ -239,21 +209,19 @@ function is_not_process {
 }
 
 function is_insmod {
-	declare      module="${1}"
-	declare description="${2}"
-
-	if grep -qe "${module}" /proc/modules; then
-		print_ok "${description}"
-	else
-		print_not_ok "${description}"
-	fi
+	_insmod "${1}" "${2}"
 }
 
 function is_not_insmod {
+	_insmod "${1}" "${2}" "!"
+}
+
+function _insmod {
 	declare      module="${1}"
 	declare description="${2}"
+	declare    operator="${3}"
 
-	if ! grep -qe "${module}" /proc/modules; then
+	if ${operator} grep -qe "${module}" /proc/modules; then
 		print_ok "${description}"
 	else
 		print_not_ok "${description}"

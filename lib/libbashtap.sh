@@ -61,14 +61,23 @@ function on_trap {
 		return ${FALSE}
 	fi
 
-	if [ ${TESTPLAN} -ne ${TESTCOUNTER} ]; then
+	if [ ${TESTPLAN} -eq 1 ]; then
+		plan='test'
+	else
+		plan='tests'
+	fi
+
+	if [ ${TESTPLAN} -gt ${TESTCOUNTER} ]; then
 		msg_footer="# Looks like you planned ${TESTPLAN}"
-		if [ ${TESTPLAN} -eq 1 ]; then
-			plan='test'
-		else
-			plan='tests'
-		fi
-		msg_footer="${msg_footer} ${plan} but only run ${TESTCOUNTER}\n"
+		      only='only '
+			 extra=''
+		msg_footer="${msg_footer} ${plan} but ${only}ran ${TESTCOUNTER} ${extra}\n"
+	elif [ ${TESTPLAN} -lt ${TESTCOUNTER} ]; then
+		msg_footer="# Looks like you planned ${TESTPLAN}"
+		only=''
+		extra='extra'
+		extra_tests=$(( ${TESTCOUNTER} - ${TESTPLAN} ))
+		msg_footer="${msg_footer} ${plan} but ${only}ran ${extra_tests} ${extra}\n"
 	fi
 
 	msg_header="${msg_header} ${test} of ${TESTCOUNTER}\n"
