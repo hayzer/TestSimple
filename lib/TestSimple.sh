@@ -50,6 +50,22 @@ function is_not_equal {
 	_equal "${1}" "${2}" "${3}" '-ne'
 }
 
+function is_greater {
+	_equal "${1}" "${2}" "${3}" '-gt'
+}
+
+function is_less {
+	_equal "${1}" "${2}" "${3}" '-lt'
+}
+
+function is_greater_or_equal {
+	_equal "${1}" "${2}" "${3}" '-le'
+}
+
+function is_less_or_equal {
+	_equal "${1}" "${2}" "${3}" '-ge'
+}
+
 function _equal {
 	declare     operation="${1}"
 	declare expect_result="${2}"
@@ -60,10 +76,12 @@ function _equal {
 	result=$( echo "${operation}" | bc -l )
 
 	if [ ${expect_result} ${operator} ${result} ]; then
-		print_ok "${description}"
+		print_ok             "${description}"
 	else
-		print_not_ok "${description}"
-		print_verbose_result "${result}" "${expect_result}" "${description}"
+		print_not_ok         "${description}"
+		print_verbose_result "${result}"        \
+                                     "${expect_result}" \
+                                     "${description}"
 	fi
 }
 
@@ -81,7 +99,7 @@ function _boolean {
 	declare        bool="${3}"
 
 	if ${bool} ${operation} 2>/dev/null 1>&2; then
-		print_ok "${description}"
+		print_ok     "${description}"
 	else
 		print_not_ok "${description}"
 	fi
@@ -99,12 +117,15 @@ function _exact {
 	declare       given="${1}"
 	declare    expected="${2}"
 	declare description="${3}"
-	declare operator="${4}"
+	declare    operator="${4}"
 
 	if [ "${given}" ${operator} "${expected}" ]; then
-		print_ok "${description}"
+		print_ok             "${description}"
 	else 
-		print_not_ok "${description}"
+		print_not_ok         "${description}"
+		print_verbose_result "${given}"       \
+                                     "${expected}"    \
+				     "${description}"
 	fi
 }
 
@@ -122,7 +143,7 @@ function _file {
 	declare    operator="${3}"
 
 	if [ ${operator} -e ${file} ]; then
-		print_ok "${description}"
+		print_ok     "${description}"
 	else
 		print_not_ok "${description}"
 	fi
@@ -142,7 +163,7 @@ function _dir {
 	declare    operator="${3}"
 
 	if [ ${operator} -d ${directory} ]; then
-		print_ok "${description}"
+		print_ok     "${description}"
 	else
 		print_not_ok "${description}"
 	fi
@@ -162,7 +183,7 @@ function _executable {
 	declare    operator="${3}"
 
 	if [ ${operator} -x ${file} ]; then
-		print_ok "${description}"
+		print_ok     "${description}"
 	else
 		print_not_ok "${description}"
 	fi
@@ -182,7 +203,7 @@ function _symlink {
 	declare    operator="${3}"
 
 	if [ ${operator} -L ${file} ]; then
-		print_ok "${description}"
+		print_ok     "${description}"
 	else
 		print_not_ok "${description}"
 	fi
@@ -199,21 +220,21 @@ function is_not_process {
 function _process {
 	declare     process="${1}"
 	declare description="${2}"
-	declare     operator="${3}"
+	declare    operator="${3}"
 
 	if [ ${operator} -d /proc/${process} ]; then
-		print_ok "${description}"
+		print_ok     "${description}"
 	else 
 		print_not_ok "${description}"
 	fi
 }
 
 function is_insmod {
-	_insmod "${1}" "${2}"
+	_insmod "${1}" "${2}" "-eq"
 }
 
 function is_not_insmod {
-	_insmod "${1}" "${2}" "!"
+	_insmod "${1}" "${2}" "-ne"
 }
 
 function _insmod {
@@ -221,8 +242,9 @@ function _insmod {
 	declare description="${2}"
 	declare    operator="${3}"
 
-	if ${operator} grep -qe "${module}" /proc/modules; then
-		print_ok "${description}"
+	grep -qe "${module}" /proc/modules
+	if [ $? ${operator} 0 ]; then
+		print_ok     "${description}"
 	else
 		print_not_ok "${description}"
 	fi
