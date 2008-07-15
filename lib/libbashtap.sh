@@ -156,6 +156,21 @@ END_RESULT
 	fi
 }
 
+function print_verbose_error {
+	declare       error="${1}"
+	declare description="${2}"
+        declare        name="$0"
+	declare        line="${BASH_LINENO[2]}"
+
+	if [ "${VERBOSE}" != "" ]; then
+		cat <<END_RESULT
+# Failed test '${description}'
+#    where: '${name}:${line}'
+#    error: '${error}'
+END_RESULT
+	fi
+}
+
 function print_counter {
 	TESTCOUNTER=$(( ${TESTCOUNTER} + 1 ))
 	if ${WITHCOUNTER}; then
