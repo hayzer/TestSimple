@@ -3,9 +3,9 @@
 .\" Rua <srua@gpul.org>
 .\" 
 .\" 
-.TH "TestSimple" "1" "0.01" "Thomas Maier" ""
+.TH "TestSimple" "1" "internal" "Thomas Maier" ""
 .SH "NAME"
-TestSimple \- Bash testing library. TAP (Testing All Protocol) compliance.
+TestSimple \- Bash testing library.
 
 .SH "SYNOPSIS"
 # Simple add this line at the beginning of your Bash script. 
@@ -13,6 +13,10 @@ TestSimple \- Bash testing library. TAP (Testing All Protocol) compliance.
 .B source lib/libbashtap.sh
 .br 
 
+\fBis_equal  2 2    "2 & 2 are equals"\fR
+.br 
+\fBis_insmod ipw220 "Wow, my wireless is up"\fR
+.br 
 .SH "DESCRIPTION"
 This manual page explains the
 .B libbashtap
@@ -36,15 +40,28 @@ program. This program...
 .B boil_out
 .br 
 
-.SH "TESTING"
+.SH "TEST FUNCTIONS"
+.B is_equal
+.br 
+.B is_not_equal
+.br 
+.B is_greater
+.br 
+.B is_less
+.br 
+.B is_greater_or_equal
+.br 
+.B is_less_or_equal
+.br 
+.B is_true
+.br 
+.B is_false
+.br 
 .B is_exact
 .br 
 .B is_not_exact
 .br 
-.B is_like
-.br 
-.B is_not_like
-.br 
+.B 
 
 .B is_file
 .br 
@@ -76,7 +93,7 @@ Check if the given string is a symbolic link.
 
 .B is_process <process id> [<description>]
 .br 
-Find if given number is process id of an existsing process.
+.br Find if given number is process id of an existsing process.
 
 .B is_not_process
 .br 
@@ -119,5 +136,6 @@ will (at least, should) print output complience with the TAP definition.
 .SH "BUGS"
 
 .SH "SEE ALSO"
+
 .SH "AUTHOR"
 Thomas Maier <hayzer at gmail dot com>
