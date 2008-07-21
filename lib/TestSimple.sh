@@ -73,7 +73,9 @@ function _equal {
 	declare      operator="${4}"
 	declare result
 
+	export START_TIME=$(current_time)
 	result=$( echo "${operation}" | bc -l )
+	export STOP_TIME=$(current_time)
 
 	if [ ${expect_result} ${operator} ${result} ]; then
 		print_ok             "${description}"
@@ -83,6 +85,9 @@ function _equal {
                                      "${expect_result}" \
                                      "${description}"
 	fi
+	
+	unset_time
+	
 }
 
 function is_true {
@@ -119,14 +124,19 @@ function _exact {
 	declare description="${3}"
 	declare    operator="${4}"
 
+	export START_TIME=$( current_time )
+
 	if [ "${given}" ${operator} "${expected}" ]; then
 		print_ok             "${description}"
 	else 
 		print_not_ok         "${description}"
+		export STOP_TIME=$( current_time )
 		print_verbose_result "${given}"       \
                                      "${expected}"    \
 				     "${description}"
 	fi
+
+	unset_time
 }
 
 function is_file {

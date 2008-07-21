@@ -38,6 +38,7 @@
 
 TESTPLAN=
 TESTCOUNTER=0
+TIME_ON=true
 WITHCOUNTER=true
 WITHDESCRIP=true
 TODO=false
@@ -70,12 +71,14 @@ function on_trap {
 	if [ ${TESTPLAN} -gt ${TESTCOUNTER} ]; then
 		msg_footer="# Looks like you planned ${TESTPLAN}"
 		      only='only '
-			 extra=''
+                     extra=''
+
 		msg_footer="${msg_footer} ${plan} but ${only}ran ${TESTCOUNTER} ${extra}\n"
 	elif [ ${TESTPLAN} -lt ${TESTCOUNTER} ]; then
 		msg_footer="# Looks like you planned ${TESTPLAN}"
-		only=''
-		extra='extra'
+		      only=''
+		     extra='extra'
+
 		extra_tests=$(( ${TESTCOUNTER} - ${TESTPLAN} ))
 		msg_footer="${msg_footer} ${plan} but ${only}ran ${extra_tests} ${extra}\n"
 	fi
@@ -139,6 +142,15 @@ function bail_out {
 	exit 1
 } 
 
+function current_time {
+	declare ctime=$(date +'%R:%S %x')
+	echo ${ctime}
+}
+
+function unset_time {
+	unset START_TIME STOP_TIME
+}
+
 function print_verbose_result {
 	declare         got="${1}"
 	declare    expected="${2}"
@@ -149,6 +161,8 @@ function print_verbose_result {
 	if [ "${VERBOSE}" != "" ]; then
 		cat <<END_RESULT
 #   Failed test '${description}'
+#  start test: '${START_TIME}'
+#   stop test: '${STOP_TIME}'
 #       where: '${name}:${line}'
 #         got: '${got}'
 #    expected: '${expected}'
