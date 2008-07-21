@@ -95,7 +95,7 @@ function is_true {
 }
 
 function is_false {
-	_boolean "${1}" "${2}" "!"
+	_boolean "${1}" "${2}" !
 }
 
 function _boolean {
@@ -140,79 +140,44 @@ function _exact {
 }
 
 function is_file {
-	_file "${1}" "${2}"
+	_file "${1}" "${2}" -e
 }
 
 function is_not_file {
-	_file "${1}" "${2}" !
-}
-
-function _file {
-	declare        file="${1}"
-	declare description="${2}"
-	declare    operator="${3}"
-
-	if [ ${operator} -e ${file} ]; then
-		print_ok     "${description}"
-	else
-		print_not_ok "${description}"
-	fi
+	_file "${1}" "${2}" -e !
 }
 
 function is_dir {
-	_dir "${1}" "${2}" 
+	_file "${1}" "${2}" -d
 }
 
 function is_not_dir {
-	_dir "${1}" "${2}" "!"
-}
-
-function _dir {
-	declare   directory="${1}"
-	declare description="${2}"
-	declare    operator="${3}"
-
-	if [ ${operator} -d ${directory} ]; then
-		print_ok     "${description}"
-	else
-		print_not_ok "${description}"
-	fi
+	_file "${1}" "${2}" -d !
 }
 
 function is_executable {
-	_executable "${1}" "${2}"
+	_file "${1}" "${2}" -x
 }
 
 function is_not_executable {
-	_executable "${1}" "${2}" "!"
-}
-
-function _executable {
-	declare        file="${1}"
-	declare description="${2}"
-	declare    operator="${3}"
-
-	if [ ${operator} -x ${file} ]; then
-		print_ok     "${description}"
-	else
-		print_not_ok "${description}"
-	fi
+	_file "${1}" "${2}" -x !
 }
 
 function is_symlink {
-	_symlink "${1}" "${2}" 
+	_file "${1}" "${2}" -L
 }
 
 function is_not_symlink {
-	_symlink "${1}" "${2}" "!"
+	_file "${1}" "${2}" -L !
 }
 
-function _symlink {
-	declare        file="${1}"
+function _file {
+	declare      target="${1}"
 	declare description="${2}"
 	declare    operator="${3}"
+	declare    negative="${4}"
 
-	if [ ${operator} -L ${file} ]; then
+	if [ ${negative} ${operator} ${target} ]; then
 		print_ok     "${description}"
 	else
 		print_not_ok "${description}"
