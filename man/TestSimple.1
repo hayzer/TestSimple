@@ -3,26 +3,25 @@
 .\" Rua <srua@gpul.org>
 .\" 
 .\" 
-.TH "TestSimple" "1" "internal" "Thomas Maier" ""
+.TH "TestSimple" "1" "0.01" "Thomas Maier" ""
 .SH "NAME"
 TestSimple \- Bash testing library.
-
 .SH "SYNOPSIS"
-# Simple add this line at the beginning of your Bash script. 
+#!/bin/bash
 
-.B source lib/libbashtap.sh
+.B source lib/TestSimple.sh
 .br 
 
-\fBis_equal  2 2    "2 & 2 are equals"\fR
+.B is_equal 2 2 \ "Two is equal two"
 .br 
-\fBis_insmod ipw220 "Wow, my wireless is up"\fR
-.br 
+
+
 .SH "DESCRIPTION"
 This manual page explains the
-.B libbashtap
-program. This program...
+.B TestSimple
+library. This program...
 .PP 
-\fBlibbashtap\fP is for...
+\fBTestSimple\fP is for...
 
 .SH "PLANNING AND DIAGNOSTIC"
 .B testplan
@@ -40,64 +39,51 @@ program. This program...
 .B boil_out
 .br 
 
-.SH "TEST FUNCTIONS"
+.SH "TESTING"
 .B is_equal
 .br 
 .B is_not_equal
 .br 
 .B is_greater
-.br 
+.br
 .B is_less
-.br 
+.br
 .B is_greater_or_equal
-.br 
+.br
+.B is_greater_or_equal
+.br
 .B is_less_or_equal
-.br 
+.br
+.B is_less_or_equal
+.br
 .B is_true
-.br 
+.br
 .B is_false
-.br 
+.br
 .B is_exact
-.br 
+.br
 .B is_not_exact
-.br 
-.B 
-
+.br
 .B is_file
-.br 
-Check if the given string is a file.
-
+.br
 .B is_not_file
-.br 
-
-.B is_dir <dir name> [<descripton>]
-.br 
-Check if give string is a directory.
-
+.br
+.B is_dir
+.br
 .B is_not_dir
-.br 
-
-.B is_executable
-.br 
-Check if given file has the execute permissions.
-
-.B is_not_executable
-.br 
-
-.B is_symlink <name> [<descripton>]
-.br 
-Check if the given string is a symbolic link.
-
+.br
+.B is_symlink
+.br
 .B is_not_symlink
-.br 
-
-.B is_process <process id> [<description>]
-.br 
-.br Find if given number is process id of an existsing process.
-
-.B is_not_process
-.br 
-
+.br
+.B is_process_id
+.br
+.B is_not_process_id
+.br
+.B is_executable
+.br
+.B is_not_executable
+.br
 .B is_insmod <kernel module> [<description>]
 .br 
 Will check if given kernel module is currently loaded into the kernel.

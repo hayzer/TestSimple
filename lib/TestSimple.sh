@@ -184,15 +184,15 @@ function _file {
 	fi
 }
 
-function is_process {
-	_process "${1}" "${2}" 
+function is_process_id {
+	_process_id "${1}" "${2}" 
 }
 
-function is_not_process {
-	_process "${1}" "${2}" "!"
+function is_not_process_id {
+	_process_id "${1}" "${2}" "!"
 }
 
-function _process {
+function _process_id {
 	declare     process="${1}"
 	declare description="${2}"
 	declare    operator="${3}"
@@ -224,7 +224,4 @@ function _insmod {
 		print_not_ok "${description}"
 	fi
 }
-
-
-
 
