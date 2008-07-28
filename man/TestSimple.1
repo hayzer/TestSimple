@@ -12,9 +12,9 @@ TestSimple \- Bash testing library.
 .B source lib/TestSimple.sh
 .br 
 
-.B is_equal 2 2 \ "Two is equal two"
+.B is_equal     2 2 \ "Two is equal two"
 .br 
-
+.B is_excutable \ "/home/town/root" \ "Root is executable"
 
 .SH "DESCRIPTION"
 This manual page explains the
@@ -25,19 +25,62 @@ library. This program...
 
 .SH "PLANNING AND DIAGNOSTIC"
 .B testplan
-.br 
+.br
+
+Define how many tests you plan to execute. Accept single parameter,
+.br
+the number of test cases.
+
+.br
 .B diag
 .br 
+
+Print diagnostic message. Very useful if you want more verbose test result 
+.br 
+output. Using this function will not confuse the test output parser. 
+.br 
+Use it in your test instead of \ "echo" or "printf" commands.
+.br
+
 .B todo_on
 .br 
+
+All tests bellow declaration of this function are expect to fail. 
+.br
+Very useful if for example, the application you're testing is not
+.br
+ready yet, but your tests are.
+.br
+Optionaly accept parameter that will be printed out during
+.br
+the test.
+
 .B todo_off
 .br 
+
+Cancell the described above behavior.
+
 .B skip_on
 .br 
+
+All tests bellow this declaration won't be execute. Useful if some
+.br
+precondition of your test fail. Like:
+
+	! uname -a | grep -q 2.4.31 && skip_on
+.br
+	is_dir \ "/lib/modules/2.4.31" "Found place for my module"
+.br
+
 .B skip_off
 .br 
-.B boil_out
+
+Stop skipping the tests.
+
+.B boil_out (not implemented yet)
 .br 
+
+Immediately quit the test.
 
 .SH "TESTING"
 .B is_equal
