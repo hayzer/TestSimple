@@ -43,7 +43,11 @@ source lib/TestSimple.sh
 testplan 26
 
 is_equal         "2 * 2" 4   "check is_eqal"
+
+skip_on
 is_equal         "2 * 2" 5   "check is_eqal"
+skip_off
+
 is_greater       1       4   "check is_greater"
 is_less          2       1   "check is_less"
 is_greater_or_equal                                       \
@@ -79,9 +83,9 @@ rm -f ./stam.link
 is_not_symlink   ./stam.link  "is_not_symlink test"
 
 process=$$
-is_process       "${process}" "is_process test"
-process=$(( ${process} + 1 ))
-is_not_process   "${process}" "is_not_process test"
+is_process_id    "${process}" "is_process test"
+process=$(( process++ ))
+is_not_process_id "${process}" "is_not_process test"
 
 is_executable    "./test.sh"  "is_executable test"
 is_insmod        "tg3"        "is_insmod test"

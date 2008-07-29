@@ -73,9 +73,14 @@ function _equal {
 	declare      operator="${4}"
 	declare result
 
-	export START_TIME=$(current_time)
+	if ${SKIP}; then
+		print_ok "${description}"
+		return 0
+	fi
+
+	export START_TIME=$( current_time )
 	result=$( echo "${operation}" | bc -l )
-	export STOP_TIME=$(current_time)
+	export STOP_TIME=$( current_time )
 
 	if [ ${expect_result} ${operator} ${result} ]; then
 		print_ok             "${description}"
@@ -103,6 +108,11 @@ function _boolean {
 	declare description="${2}"
 	declare        bool="${3}"
 
+	if ${SKIP}; then
+		print_ok "${description}"
+		return 0
+	fi
+
 	if ${bool} ${operation} 2>/dev/null 1>&2; then
 		print_ok     "${description}"
 	else
@@ -125,6 +135,11 @@ function _exact {
 	declare    operator="${4}"
 
 	export START_TIME=$( current_time )
+
+	if ${SKIP}; then
+		print_ok "${description}"
+		return 0
+	fi
 
 	if [ "${given}" ${operator} "${expected}" ]; then
 		print_ok             "${description}"
@@ -177,6 +192,11 @@ function _file {
 	declare    operator="${3}"
 	declare    negative="${4}"
 
+	if ${SKIP}; then
+		print_ok "${description}"
+		return 0
+	fi
+
 	if [ ${negative} ${operator} ${target} ]; then
 		print_ok     "${description}"
 	else
@@ -197,6 +217,11 @@ function _process_id {
 	declare description="${2}"
 	declare    operator="${3}"
 
+	if ${SKIP}; then
+		print_ok "${description}"
+		return 0
+	fi
+
 	if [ ${operator} -d /proc/${process} ]; then
 		print_ok     "${description}"
 	else 
@@ -216,6 +241,11 @@ function _insmod {
 	declare      module="${1}"
 	declare description="${2}"
 	declare    operator="${3}"
+
+	if ${SKIP}; then
+		print_ok "${description}"
+		return 0
+	fi
 
 	grep -qe "${module}" /proc/modules
 	if [ $? ${operator} 0 ]; then

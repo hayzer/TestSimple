@@ -84,7 +84,7 @@ function on_trap {
 	fi
 
 	msg_header="${msg_header} ${test} of ${TESTCOUNTER}\n"
-	echo -ne "${msg_footer}${msg_header}"
+	echo -ne "${msg_footer}${msg_header}" >&2
 }
 		
 #-------------------------------------------------------------------------------
@@ -92,7 +92,8 @@ function on_trap {
 #-------------------------------------------------------------------------------
 function diag {
 	declare diagnostic="${*}"
-	echo -en "# ${diagnostic}\n"
+	
+	echo -en "# ${diagnostic}\n" >&2
 }
 
 function skip_all {
@@ -131,7 +132,7 @@ function skip_on {
 	SKIP=true
 }
 
-function skipp_off {
+function skip_off {
 	SKIP=false
 }
 
@@ -143,7 +144,7 @@ function bail_out {
 } 
 
 function current_time {
-	declare ctime=$(date +'%R:%S %x')
+	declare ctime=$(date +'%R:%S.%N %x')
 	echo ${ctime}
 }
 
@@ -155,18 +156,20 @@ function print_verbose_result {
 	declare         got="${1}"
 	declare    expected="${2}"
 	declare description="${3}"
-	declare name="$0"
-	declare line="${BASH_LINENO[2]}"
+	declare        name="$0"
+	declare        line="${BASH_LINENO[2]}"
 
-	if [ "${VERBOSE}" != "" ]; then
-		cat <<END_RESULT
+	declare msg
+	if [ "X${VERBOSE}" != "X" ]; then
+		msg=$(cat <<END_RESULT
 #   Failed test '${description}'
 #  start test: '${START_TIME}'
 #   stop test: '${STOP_TIME}'
 #       where: '${name}:${line}'
 #         got: '${got}'
 #    expected: '${expected}'
-END_RESULT
+END_RESULT)
+		echo "${msg}" >&2
 	fi
 }
 
@@ -176,12 +179,14 @@ function print_verbose_error {
         declare        name="$0"
 	declare        line="${BASH_LINENO[2]}"
 
-	if [ "${VERBOSE}" != "" ]; then
-		cat <<END_RESULT
+	declare msg
+	if [ "X${VERBOSE}" != "X" ]; then
+		msg=$(cat <<END_RESULT
 # Failed test '${description}'
 #    where: '${name}:${line}'
 #    error: '${error}'
-END_RESULT
+END_RESULT)
+		echo ${msg} >&2
 	fi
 }
 
