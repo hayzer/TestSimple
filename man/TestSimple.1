@@ -77,10 +77,16 @@ precondition of your test fail. Like:
 
 Stop skipping the tests.
 
-.B boil_out (not implemented yet)
+.B bail_out 
 .br 
 
 Immediately quit the test.
+
+	if ! test -d /boot; then
+.br
+		bail_out "How the hell .."
+.br
+	fi
 
 .SH "TESTING"
 .B is_equal
@@ -156,7 +162,7 @@ Don't use variables with such a names neither change their values.
 .SH "DIAGNOSTICS"
 .B 
 libbashtap
-will (at least, should) print output complience with the TAP definition.
+will (at least, should) print output, complience with the TAP definition.
 
 .SH "RETURN VALUES"
 

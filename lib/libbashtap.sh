@@ -153,8 +153,8 @@ function unset_time {
 }
 
 function print_verbose_result {
-	declare         got="${1}"
-	declare    expected="${2}"
+	declare        have="${1}"
+	declare        want="${2}"
 	declare description="${3}"
 	declare        name="$0"
 	declare        line="${BASH_LINENO[2]}"
@@ -166,8 +166,8 @@ function print_verbose_result {
 #  start test: '${START_TIME}'
 #   stop test: '${STOP_TIME}'
 #       where: '${name}:${line}'
-#         got: '${got}'
-#    expected: '${expected}'
+#        have: '${got}'
+#        want: '${expected}'
 END_RESULT)
 		echo "${msg}" >&2
 	fi

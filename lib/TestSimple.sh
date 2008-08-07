@@ -84,11 +84,13 @@ function _equal {
 
 	if [ ${expect_result} ${operator} ${result} ]; then
 		print_ok             "${description}"
+		return 0
 	else
 		print_not_ok         "${description}"
 		print_verbose_result "${result}"        \
                                      "${expect_result}" \
                                      "${description}"
+		return 1
 	fi
 	
 	unset_time
@@ -115,9 +117,12 @@ function _boolean {
 
 	if ${bool} ${operation} 2>/dev/null 1>&2; then
 		print_ok     "${description}"
+		return 0
 	else
 		print_not_ok "${description}"
+		return 1
 	fi
+	
 }
 
 function is_exact {
@@ -143,12 +148,14 @@ function _exact {
 
 	if [ "${given}" ${operator} "${expected}" ]; then
 		print_ok             "${description}"
+		return 0
 	else 
 		print_not_ok         "${description}"
 		export STOP_TIME=$( current_time )
 		print_verbose_result "${given}"       \
                                      "${expected}"    \
 				     "${description}"
+		return 1
 	fi
 
 	unset_time
@@ -199,8 +206,10 @@ function _file {
 
 	if [ ${negative} ${operator} ${target} ]; then
 		print_ok     "${description}"
+		return 0
 	else
 		print_not_ok "${description}"
+		return 1
 	fi
 }
 
@@ -224,8 +233,10 @@ function _process_id {
 
 	if [ ${operator} -d /proc/${process} ]; then
 		print_ok     "${description}"
+		return 0
 	else 
 		print_not_ok "${description}"
+		return 1
 	fi
 }
 
@@ -250,8 +261,10 @@ function _insmod {
 	grep -qe "${module}" /proc/modules
 	if [ $? ${operator} 0 ]; then
 		print_ok     "${description}"
+		return 0
 	else
 		print_not_ok "${description}"
+		return 1
 	fi
 }
 

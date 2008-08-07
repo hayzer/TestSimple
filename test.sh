@@ -67,6 +67,7 @@ is_exact          2 2        "Two is two"
 
 diag             "Very slow test"
 
+# bail_out         "I'm out"
 is_exact         "baa" "aa"  "is_exact fail"
 is_not_exact     "baa" "aa"  "is_not_exact pass"
 
