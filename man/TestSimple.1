@@ -16,22 +16,28 @@ TestSimple \- Bash testing library.
 .br 
 .B is_excutable \ "/home/town/root" \ "Root is executable"
 
+\fBdiag "Very important message"\fR
+.br 
 .SH "DESCRIPTION"
-This manual page explains the
-.B TestSimple
-library. This program...
-.PP 
-\fBTestSimple\fP is for...
-
+\fITestSimple\fR is Bash testing library. Source it in your test
+script and use its functions. During the test \fITestSimple\fR will 
+produce \fBTAP\fR output. Such output can be parse by already existing
+tools and produce nice looking test reports. Thanks to \fBTAP\fR, test written in Bash
+can be executed together with tests written in other languages that
+support \fBTAP\fR format. Their outputs can be bind together by \fBTAP\fR parser
+(read more in \fBTAP\fR section).
+.br 
+\fITestSimple\fR will provide tools to test basic operation in Bash code, as
+well on system commands.  
 .SH "PLANNING AND DIAGNOSTIC"
 .B testplan
-.br
+.br 
 
 Define how many tests you plan to execute. Accept single parameter,
-.br
+.br 
 the number of test cases.
 
-.br
+.br 
 .B diag
 .br 
 
@@ -40,19 +46,19 @@ Print diagnostic message. Very useful if you want more verbose test result
 output. Using this function will not confuse the test output parser. 
 .br 
 Use it in your test instead of \ "echo" or "printf" commands.
-.br
+.br 
 
 .B todo_on
 .br 
 
 All tests bellow declaration of this function are expect to fail. 
-.br
+.br 
 Very useful if for example, the application you're testing is not
-.br
+.br 
 ready yet, but your tests are.
-.br
+.br 
 Optionaly accept parameter that will be printed out during
-.br
+.br 
 the test.
 
 .B todo_off
@@ -64,13 +70,13 @@ Cancell the described above behavior.
 .br 
 
 All tests bellow this declaration won't be execute. Useful if some
-.br
+.br 
 precondition of your test fail. Like:
 
-	! uname -a | grep -q 2.4.31 && skip_on
-.br
+	! uname \-a | grep \-q 2.4.31 && skip_on
+.br 
 	is_dir \ "/lib/modules/2.4.31" "Found place for my module"
-.br
+.br 
 
 .B skip_off
 .br 
@@ -82,10 +88,10 @@ Stop skipping the tests.
 
 Immediately quit the test.
 
-	if ! test -d /boot; then
-.br
+	if ! test \-d /boot; then
+.br 
 		bail_out "How the hell .."
-.br
+.br 
 	fi
 
 .SH "TESTING"
@@ -94,45 +100,45 @@ Immediately quit the test.
 .B is_not_equal
 .br 
 .B is_greater
-.br
+.br 
 .B is_less
-.br
+.br 
 .B is_greater_or_equal
-.br
+.br 
 .B is_greater_or_equal
-.br
+.br 
 .B is_less_or_equal
-.br
+.br 
 .B is_less_or_equal
-.br
+.br 
 .B is_true
-.br
+.br 
 .B is_false
-.br
+.br 
 .B is_exact
-.br
+.br 
 .B is_not_exact
-.br
+.br 
 .B is_file
-.br
+.br 
 .B is_not_file
-.br
+.br 
 .B is_dir
-.br
+.br 
 .B is_not_dir
-.br
+.br 
 .B is_symlink
-.br
+.br 
 .B is_not_symlink
-.br
+.br 
 .B is_process_id
-.br
+.br 
 .B is_not_process_id
-.br
+.br 
 .B is_executable
-.br
+.br 
 .B is_not_executable
-.br
+.br 
 .B is_insmod <kernel module> [<description>]
 .br 
 Will check if given kernel module is currently loaded into the kernel.
@@ -168,6 +174,7 @@ will (at least, should) print output, complience with the TAP definition.
 
 .SH "ERROR HANDLING"
 
+.SH "TAP"
 .SH "BUGS"
 
 .SH "SEE ALSO"
