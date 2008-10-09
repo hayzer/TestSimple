@@ -78,6 +78,17 @@ function _equal {
 		return 0
 	fi
 
+	#-------------------------------------------------------------------------------
+	#   bc is often not a defult distribution package   
+	#-------------------------------------------------------------------------------
+	if ! which bc 2>/dev/null 1>&2; then 
+		print_not_ok "${description}"
+		diag "System command \"bc\" is not available for this user"
+		diag "or missing from this system. You must install it first"
+		diag "to use this test properly."
+		return 1
+	fi
+
 	export START_TIME=$( current_time )
 	result=$( echo "${operation}" | bc -l )
 	export STOP_TIME=$( current_time )
@@ -88,8 +99,8 @@ function _equal {
 	else
 		print_not_ok         "${description}"
 		print_verbose_result "${result}"        \
-                                     "${expect_result}" \
-                                     "${description}"
+							 "${expect_result}" \
+							 "${description}"
 		return 1
 	fi
 	
