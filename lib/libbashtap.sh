@@ -1,9 +1,9 @@
 #!/bin/bash
 #===============================================================================
 #
-#          FILE:  libtap.sh
+#          FILE:  libbashtap.sh
 # 
-#         USAGE:  ./libtap.sh 
+#         USAGE:  ./libbashtap.sh 
 # 
 #   DESCRIPTION:  TAP implementation in Bash
 # 
