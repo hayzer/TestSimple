@@ -47,6 +47,7 @@ SKIP_ALL=false
 TRUE=0
 FALSE=1
 FAILCOUNTER=0
+FOOTER=true
 
 trap on_trap EXIT
 
@@ -84,7 +85,9 @@ function on_trap {
 	fi
 
 	msg_header="${msg_header} ${test} of ${TESTCOUNTER}\n"
-	echo -ne "${msg_footer}${msg_header}" >&2
+	if ${FOOTER}; then
+		echo -ne "${msg_footer}${msg_header}" >&2
+	fi
 }
 		
 #-------------------------------------------------------------------------------
@@ -118,6 +121,12 @@ function testplan() {
 	fi
 
 	echo -en "1..${test}${postfix}\n"
+}
+
+function reset() {
+	TESTPLAN=
+	TESTCOUNTER=0
+	FOOTER=false
 }
 
 function todo_on {

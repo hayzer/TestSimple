@@ -92,4 +92,10 @@ is_executable    "./test.sh"  "is_executable test"
 is_insmod        "tg3"        "is_insmod test"
 is_not_insmod    "ipw2200"    "is_not_insmod"
 
+reset
+
+testplan 2
+is_equal          "2 * 2"  4  "check is_equal again"
+is_not_equal      "2 * 2"  5  "check is_not_equal again"
+
 exit 0
