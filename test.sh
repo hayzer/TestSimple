@@ -85,6 +85,8 @@ is_not_symlink   ./stam.link  "is_not_symlink test"
 
 process=$$
 is_process_id    "${process}" "is_process test"
+
+# Should be good enough
 process=$(( process++ ))
 is_not_process_id "${process}" "is_not_process test"
 
