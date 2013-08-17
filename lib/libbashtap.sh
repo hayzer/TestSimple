@@ -1,25 +1,7 @@
 #!/bin/bash
 #===============================================================================
-#
-#          FILE:  libbashtap.sh
-# 
-#         USAGE:  ./libbashtap.sh 
-# 
-#   DESCRIPTION:  TAP implementation in Bash
-# 
-#       OPTIONS:  ---
-#  REQUIREMENTS:  ---
-#          BUGS:  ---
-#         NOTES:  ---
-#        AUTHOR:  Thomas Maier, hayzer@gmail.com
-#       VERSION:  0.01
-#       CREATED:  01/08/2008 10:45:19 PM IST
-#      REVISION:  ---
-#===============================================================================
-
-#===============================================================================
 # This file is part of TestSimple.
-# Copyright (C) 2008 - 2012 Thomas Maier
+# Copyright (C) 2008 - 2013 Thomas Maier
 #
 # TestSimple is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
