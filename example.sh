@@ -78,6 +78,7 @@ is_dir           "/usr/local" "is_dir test"
 is_not_dir       "/abc"       "is_not_dir test"
 
 ln -s ./test.sh ./stam.link
+ls -lt
 is_symlink       ./stam.link  "is_symlink test"
 
 rm -f ./stam.link
